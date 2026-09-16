@@ -16,6 +16,7 @@
   function applyTheme(theme) {
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem(THEME_KEY, theme);
+    window.dispatchEvent(new CustomEvent('themeChanged', { detail: { theme } }));
 
     // Update button aria attributes if button is loaded
     const toggleBtn = document.getElementById('theme-toggle-btn');

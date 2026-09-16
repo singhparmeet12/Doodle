@@ -119,6 +119,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+    function isDarkMode() {
+    return currentPaper === 'chalkboard' || document.documentElement.getAttribute('data-theme') === 'dark';
+  }
+
+  function getTemplateStrokeColor() {
+    return isDarkMode() ? '#FFFFFF' : '#2B2B2B';
+  }
+
+  function getTemplateEyeShine() {
+    return isDarkMode() ? '#222428' : '#FFFDF9';
+  }
+
   function getBaseBgColor() {
     if (currentPaper === 'chalkboard') return '#222428';
     const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
@@ -245,7 +257,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const cy = h / 2 - 15;
       const r = Math.min(w, h) * 0.28;
       ctx.save();
-      ctx.strokeStyle = '#2B2B2B';
+      ctx.strokeStyle = getTemplateStrokeColor();
       ctx.lineWidth = 4.5;
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
@@ -266,14 +278,14 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.stroke();
 
       // Sleepy relaxed melting eyes
-      ctx.fillStyle = '#2B2B2B';
+      ctx.fillStyle = getTemplateStrokeColor();
       ctx.beginPath();
       ctx.ellipse(cx - r * 0.35, cy - r * 0.15, 6, 7, -0.2, 0, Math.PI * 2);
       ctx.ellipse(cx + r * 0.35, cy - r * 0.08, 6, 7, 0.2, 0, Math.PI * 2);
       ctx.fill();
 
       // Eye shine
-      ctx.fillStyle = '#FFFDF9';
+      ctx.fillStyle = getTemplateEyeShine();
       ctx.beginPath();
       ctx.arc(cx - r * 0.35 + 2, cy - r * 0.15 - 2, 2.2, 0, Math.PI * 2);
       ctx.arc(cx + r * 0.35 + 2, cy - r * 0.08 - 2, 2.2, 0, Math.PI * 2);
@@ -299,7 +311,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const cy = h / 2 - 15;
       const r = Math.min(w, h) * 0.28;
       ctx.save();
-      ctx.strokeStyle = '#2B2B2B';
+      ctx.strokeStyle = getTemplateStrokeColor();
       ctx.lineWidth = 4.5;
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
@@ -322,7 +334,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // GIANT SPARKLY PUPPY EYES
       // Left Eye
-      ctx.fillStyle = '#2B2B2B';
+      ctx.fillStyle = getTemplateStrokeColor();
       ctx.beginPath();
       ctx.arc(cx - r * 0.35, cy - r * 0.05, r * 0.24, 0, Math.PI * 2);
       ctx.fill();
@@ -333,7 +345,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.fill();
 
       // Big sparkle highlights
-      ctx.fillStyle = '#FFFDF9';
+      ctx.fillStyle = getTemplateEyeShine();
       ctx.beginPath();
       ctx.arc(cx - r * 0.35 + 8, cy - r * 0.05 - 8, r * 0.1, 0, Math.PI * 2);
       ctx.arc(cx + r * 0.35 + 8, cy - r * 0.05 - 8, r * 0.1, 0, Math.PI * 2);
@@ -366,7 +378,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const cy = h / 2 - 15;
       const r = Math.min(w, h) * 0.28;
       ctx.save();
-      ctx.strokeStyle = '#2B2B2B';
+      ctx.strokeStyle = getTemplateStrokeColor();
       ctx.lineWidth = 4.5;
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
@@ -377,7 +389,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.stroke();
 
       // Sunglasses Left Frame
-      ctx.fillStyle = '#2B2B2B';
+      ctx.fillStyle = getTemplateStrokeColor();
       ctx.beginPath();
       ctx.roundRect(cx - r * 0.78, cy - r * 0.25, r * 0.68, r * 0.45, [6, 6, 18, 18]);
       ctx.fill();
@@ -412,7 +424,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.stroke();
 
       // Cheeky Confident Grin
-      ctx.strokeStyle = '#2B2B2B';
+      ctx.strokeStyle = getTemplateStrokeColor();
       ctx.lineWidth = 4.5;
       ctx.beginPath();
       ctx.moveTo(cx - r * 0.35, cy + r * 0.38);
@@ -433,7 +445,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const cy = h / 2 - 15;
       const r = Math.min(w, h) * 0.28;
       ctx.save();
-      ctx.strokeStyle = '#2B2B2B';
+      ctx.strokeStyle = getTemplateStrokeColor();
       ctx.lineWidth = 4.5;
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
@@ -461,25 +473,25 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.stroke();
 
       // Right round eye
-      ctx.fillStyle = '#2B2B2B';
+      ctx.fillStyle = getTemplateStrokeColor();
       ctx.beginPath();
       ctx.arc(cx + r * 0.22, cy - r * 0.3, 7, 0, Math.PI * 2);
       ctx.fill();
 
       // Catchlight
-      ctx.fillStyle = '#FFFDF9';
+      ctx.fillStyle = getTemplateEyeShine();
       ctx.beginPath();
       ctx.arc(cx + r * 0.22 + 2, cy - r * 0.3 - 2, 2.5, 0, Math.PI * 2);
       ctx.fill();
 
       // Cute open oval mouth
-      ctx.fillStyle = '#2B2B2B';
+      ctx.fillStyle = getTemplateStrokeColor();
       ctx.beginPath();
       ctx.ellipse(cx, cy - r * 0.1, 8, 12, 0, 0, Math.PI * 2);
       ctx.fill();
 
       // Little stars around ghost
-      ctx.strokeStyle = '#2B2B2B';
+      ctx.strokeStyle = getTemplateStrokeColor();
       ctx.lineWidth = 3;
       ctx.beginPath();
       ctx.moveTo(cx + r * 0.9, cy - r * 0.5); ctx.lineTo(cx + r * 0.9, cy - r * 0.35);
@@ -494,7 +506,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const cy = h / 2 + 10;
       const r = Math.min(w, h) * 0.26;
       ctx.save();
-      ctx.strokeStyle = '#2B2B2B';
+      ctx.strokeStyle = getTemplateStrokeColor();
       ctx.lineWidth = 4.5;
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
@@ -530,7 +542,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.stroke();
 
       // Wide shock eyes
-      ctx.fillStyle = '#2B2B2B';
+      ctx.fillStyle = getTemplateStrokeColor();
       ctx.beginPath();
       ctx.arc(cx - r * 0.38, cy + r * 0.15, 6, 0, Math.PI * 2);
       ctx.arc(cx + r * 0.38, cy + r * 0.15, 6, 0, Math.PI * 2);
@@ -549,7 +561,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const cy = h / 2 - 15;
       const r = Math.min(w, h) * 0.28;
       ctx.save();
-      ctx.strokeStyle = '#2B2B2B';
+      ctx.strokeStyle = getTemplateStrokeColor();
       ctx.lineWidth = 4.5;
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
@@ -603,7 +615,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const cy = h / 2 - 20;
       const r = Math.min(w, h) * 0.32;
       ctx.save();
-      ctx.strokeStyle = '#2B2B2B';
+      ctx.strokeStyle = getTemplateStrokeColor();
       ctx.lineWidth = 4.5;
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
@@ -625,7 +637,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.stroke();
 
       // Cute Eyes
-      ctx.fillStyle = '#2B2B2B';
+      ctx.fillStyle = getTemplateStrokeColor();
       ctx.beginPath();
       ctx.arc(cx - 30, cy - 10, 7, 0, Math.PI * 2);
       ctx.arc(cx + 30, cy - 10, 7, 0, Math.PI * 2);
@@ -659,7 +671,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.save();
       ctx.translate(cx - 80 * s, cy - 80 * s);
       ctx.scale(s, s);
-      ctx.strokeStyle = '#2B2B2B';
+      ctx.strokeStyle = getTemplateStrokeColor();
       ctx.lineWidth = 4.5;
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
@@ -675,7 +687,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.stroke();
 
       // Eyes
-      ctx.fillStyle = '#2B2B2B';
+      ctx.fillStyle = getTemplateStrokeColor();
       ctx.beginPath();
       ctx.arc(65, 68, 5.5, 0, Math.PI * 2);
       ctx.arc(95, 69, 5.5, 0, Math.PI * 2);
@@ -709,7 +721,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const cx = w / 2;
       const cy = h / 2;
       ctx.save();
-      ctx.strokeStyle = '#2B2B2B';
+      ctx.strokeStyle = getTemplateStrokeColor();
       ctx.lineWidth = 4.5;
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
@@ -742,7 +754,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.stroke();
 
       // Eyes
-      ctx.fillStyle = '#2B2B2B';
+      ctx.fillStyle = getTemplateStrokeColor();
       ctx.beginPath();
       ctx.ellipse(cx - 32, cy - 10, 8, 14, 0, 0, Math.PI * 2);
       ctx.ellipse(cx + 32, cy - 10, 8, 14, 0, 0, Math.PI * 2);
@@ -779,7 +791,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const cx = w / 2;
       const cy = h / 2 - 10;
       ctx.save();
-      ctx.strokeStyle = '#2B2B2B';
+      ctx.strokeStyle = getTemplateStrokeColor();
       ctx.lineWidth = 4.5;
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
@@ -825,7 +837,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const cx = w / 2;
       const cy = h / 2;
       ctx.save();
-      ctx.strokeStyle = '#2B2B2B';
+      ctx.strokeStyle = getTemplateStrokeColor();
       ctx.lineWidth = 4.5;
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
@@ -883,7 +895,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const cx = w / 2;
       const cy = h / 2;
       ctx.save();
-      ctx.strokeStyle = '#2B2B2B';
+      ctx.strokeStyle = getTemplateStrokeColor();
       ctx.lineWidth = 4.5;
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
@@ -942,7 +954,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const cx = w / 2;
       const cy = h / 2 + 10;
       ctx.save();
-      ctx.strokeStyle = '#2B2B2B';
+      ctx.strokeStyle = getTemplateStrokeColor();
       ctx.lineWidth = 4.5;
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
@@ -962,7 +974,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.stroke();
 
       // Smiling face
-      ctx.fillStyle = '#2B2B2B';
+      ctx.fillStyle = getTemplateStrokeColor();
       ctx.beginPath();
       ctx.arc(cx - 28, cy - 5, 6, 0, Math.PI * 2);
       ctx.arc(cx + 28, cy - 5, 6, 0, Math.PI * 2);
@@ -996,7 +1008,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const cx = w / 2;
       const cy = h / 2 - 20;
       ctx.save();
-      ctx.strokeStyle = '#2B2B2B';
+      ctx.strokeStyle = getTemplateStrokeColor();
       ctx.lineWidth = 4.5;
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
@@ -1036,7 +1048,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.stroke();
 
       // Face on scoop
-      ctx.fillStyle = '#2B2B2B';
+      ctx.fillStyle = getTemplateStrokeColor();
       ctx.beginPath();
       ctx.arc(cx - 22, cy + 5, 5, 0, Math.PI * 2);
       ctx.arc(cx + 22, cy + 5, 5, 0, Math.PI * 2);
@@ -1051,7 +1063,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const cx = w / 2;
       const cy = h / 2;
       ctx.save();
-      ctx.strokeStyle = '#2B2B2B';
+      ctx.strokeStyle = getTemplateStrokeColor();
       ctx.lineWidth = 4.5;
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
@@ -1080,7 +1092,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.stroke();
 
       // Eye
-      ctx.fillStyle = '#2B2B2B';
+      ctx.fillStyle = getTemplateStrokeColor();
       ctx.beginPath();
       ctx.arc(cx + 10, cy - 75, 5.5, 0, Math.PI * 2);
       ctx.fill();
@@ -1101,7 +1113,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const cx = w / 2;
       const cy = h / 2 - 30;
       ctx.save();
-      ctx.strokeStyle = '#2B2B2B';
+      ctx.strokeStyle = getTemplateStrokeColor();
       ctx.lineWidth = 4.5;
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
@@ -1144,7 +1156,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.stroke();
 
       // Face on center
-      ctx.fillStyle = '#2B2B2B';
+      ctx.fillStyle = getTemplateStrokeColor();
       ctx.beginPath();
       ctx.arc(cx - 14, cy - 6, 4.5, 0, Math.PI * 2);
       ctx.arc(cx + 14, cy - 6, 4.5, 0, Math.PI * 2);
@@ -1739,3 +1751,13 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 });
+
+  // Dynamic dark/light mode canvas redraw
+  window.addEventListener('themeChanged', () => {
+    if (currentTemplate !== 'blank') {
+      const rect = canvas.getBoundingClientRect();
+      ctx.clearRect(0, 0, rect.width, rect.height);
+      renderTemplateOutline(currentTemplate);
+    }
+    renderComposite();
+  });
