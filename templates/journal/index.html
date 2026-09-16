@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container section-spacing">
+  <div class="section-header">
+    <span class="section-tagline">📖 The Doodle Diary</span>
+    <h1>Field Notes & Sketchbook Stories</h1>
+    <p class="section-subtitle">
+      Thoughts on creative blocks, messy desks, the virtues of wax crayons, and adventures in the margins.
+    </p>
+  </div>
+
+  {% if page_obj %}
+    <div class="diary-grid">
+      {% for post in page_obj %}
+        <article class="diary-entry-card">
+          <div>
+            <div class="tape-corner-left"></div>
+            <div class="diary-cover-art">
+              {% if post.svg_cover %}
+                {{ post.svg_cover|safe }}
+              {% elif post.cover_image %}
+                <img src="{{ post.cover_image.url }}" alt="{{ post.title }}" loading="lazy">
+              {% else %}
+                <div style="font-family: var(--font-hand); font-size: 1.4rem; color: var(--ink-muted);">
+                  📖 Diary Entry
+                </div>
+              {% endif %}
+            </div>
+            <span class="badge-tag" style="margin-bottom: 8px;">{{ post.mood }}</span>
+            <h2 style="font-size: 1.5rem; margin-bottom: 8px;">
+              <a href="{% url 'journal:detail' slug=post.slug %}" style="color: var(--ink-main); text-decoration: none;">
+                {{ post.title }}
+              </a>
+            </h2>
+            <p style="font-size: 0.98rem; color: var(--ink-muted); line-height: 1.55;">
+              {{ post.excerpt }}
+            </p>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; padding-top: 10px; border-top: 1px dashed var(--border-subtle); font-size: 0.88rem; color: var(--ink-muted);">
+            <span>{{ post.published_date|date:"F j, Y" }} · {{ post.read_time }}</span>
+            <a href="{% url 'journal:detail' slug=post.slug %}" style="font-family: var(--font-display); font-size: 1.15rem; font-weight: bold; color: var(--crayon-coral); text-decoration: underline;">
+              Read Entry →
+            </a>
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    {% if page_obj.has_other_pages %}
+      <div style="display: flex; justify-content: center; gap: 12px; margin-top: 4rem;">
+        {% if page_obj.has_previous %}
+          <a href="?page={{ page_obj.previous_page_number }}" class="btn-doodle btn-yellow btn-sm">
+            ← Previous Page
+          </a>
+        {% endif %}
+
+        <span style="display: flex; align-items: center; font-family: var(--font-display); font-size: 1.25rem; font-weight: bold;">
+          Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+
+        {% if page_obj.has_next %}
+          <a href="?page={{ page_obj.next_page_number }}" class="btn-doodle btn-coral btn-sm">
+            Next Page →
+          </a>
+        {% endif %}
+      </div>
+    {% endif %}
+
+  {% else %}
+    <div class="doodle-card" style="text-align: center; max-width: 480px; margin: 3rem auto; padding: 40px;">
+      <p>No journal entries written yet!</p>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

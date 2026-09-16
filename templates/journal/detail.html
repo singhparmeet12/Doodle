@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container section-spacing">
+  <div style="max-width: 820px; margin: 0 auto;">
+    <a href="{% url 'journal:list' %}" class="btn-doodle btn-outline btn-sm" style="margin-bottom: 2rem;">
+      ← Back to Field Notes
+    </a>
+
+    <article class="diary-detail-page">
+      <div class="tape-strip"></div>
+
+      <header style="text-align: center; margin-bottom: 2.5rem; padding-bottom: 1.5rem; border-bottom: 2px dashed var(--border-subtle);">
+        <div style="display: flex; justify-content: center; gap: 8px; margin-bottom: 12px;">
+          <span class="badge-tag">{{ post.mood }}</span>
+          <span class="badge-tag tag-pip">⏱️ {{ post.read_time }}</span>
+        </div>
+        <h1 style="font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 12px;">{{ post.title }}</h1>
+        <p style="color: var(--ink-muted); font-size: 1rem; margin: 0;">
+          Penned on {{ post.published_date|date:"l, F j, Y" }}
+        </p>
+      </header>
+
+      {% if post.svg_cover %}
+        <div class="polaroid-art-stage" style="padding: 24px; min-height: 320px; margin-bottom: 2rem; border-radius: var(--wobble-card);">
+          {{ post.svg_cover|safe }}
+        </div>
+      {% elif post.cover_image %}
+        <div class="polaroid-art-stage" style="margin-bottom: 2rem;">
+          <img src="{{ post.cover_image.url }}" alt="{{ post.title }}" style="max-height: 400px; margin: 0 auto;">
+        </div>
+      {% endif %}
+
+      <!-- Diary Body -->
+      <div class="diary-detail-body">
+        {{ post.body|safe }}
+      </div>
+
+      <!-- End of page signature doodle -->
+      <div class="diary-end-doodle">
+        <div style="width: 100px; height: 100px; margin: 0 auto 12px;">
+          {% include 'partials/mascot.html' with class='end-page-mascot' %}
+        </div>
+        <h3 style="font-size: 1.6rem; color: var(--crayon-coral);">You’ve reached the end of this page 📖</h3>
+        <p style="color: var(--ink-muted); font-size: 1rem; max-width: 480px; margin: 6px auto 20px;">
+          Barnaby is carefully closing the sketchbook and putting his crayons back into the tin. What did you think? Leave a note on the guestbook wall!
+        </p>
+        <div style="display: flex; justify-content: center; gap: 14px;">
+          <a href="{% url 'guestbook:list' %}" class="btn-doodle btn-yellow btn-sm">
+            Leave A Sticky Note 📌
+          </a>
+          <a href="{% url 'core:draw' %}" class="btn-doodle btn-coral btn-sm">
+            Draw Your Response ✏️
+          </a>
+        </div>
+      </div>
+    </article>
+  </div>
+</div>
+{% endblock %}

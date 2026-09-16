@@ -1,0 +1,85 @@
+<header class="site-header">
+  <nav class="nav-wrapper" aria-label="Main Navigation">
+    <a href="{% url 'core:home' %}" class="site-logo">
+      <div class="logo-mascot-icon">
+        {% include 'partials/mascot.html' with class='nav-mascot' %}
+      </div>
+      <span>Scribbleverse<span class="dot">.</span></span>
+    </a>
+
+    <ul class="nav-links" id="nav-links">
+      <li>
+        <a href="{% url 'core:home' %}" class="nav-link {% if active_nav == 'home' %}active{% endif %}">
+          <span class="nav-link-icon">🏠</span>
+          <span>Home</span>
+        </a>
+      </li>
+      <li>
+        <a href="{% url 'gallery:list' %}" class="nav-link {% if active_nav == 'gallery' %}active{% endif %}">
+          <span class="nav-link-icon">🎨</span>
+          <span>Gallery</span>
+        </a>
+      </li>
+      <li>
+        <a href="{% url 'journal:list' %}" class="nav-link {% if active_nav == 'journal' %}active{% endif %}">
+          <span class="nav-link-icon">📖</span>
+          <span>Doodle Diary</span>
+        </a>
+      </li>
+      <li>
+        <a href="{% url 'core:draw' %}" class="nav-link {% if active_nav == 'draw' %}active{% endif %}">
+          <span class="nav-link-icon">✏️</span>
+          <span>Draw Studio</span>
+        </a>
+      </li>
+      <li>
+        <a href="{% url 'core:about' %}" class="nav-link {% if active_nav == 'about' %}active{% endif %}">
+          <span class="nav-link-icon">🧸</span>
+          <span>Our Story</span>
+        </a>
+      </li>
+      <li>
+        <a href="{% url 'guestbook:list' %}" class="nav-link {% if active_nav == 'guestbook' %}active{% endif %}">
+          <span class="nav-link-icon">📌</span>
+          <span>Guestbook</span>
+        </a>
+      </li>
+    </ul>
+
+    <div class="nav-actions">
+      <!-- Sound FX Toggle Button -->
+      <button id="sound-toggle-btn" class="theme-toggle-btn" aria-label="Toggle Cute Sound Effects" title="Cute Sound Effects (Active)" type="button">
+        <span id="sound-icon" style="font-size: 1.15rem; line-height: 1;">🔊</span>
+      </button>
+
+      <!-- Dark / Light Theme Toggle -->
+      <button id="theme-toggle-btn" class="theme-toggle-btn" aria-label="Toggle Theme" title="Toggle Theme" type="button">
+        <!-- Sun Icon (shown in dark mode to switch to light) -->
+        <svg class="icon-sun" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <!-- Moon Icon (shown in light mode to switch to dark) -->
+        <svg class="icon-moon" viewBox="0 0 24 24">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+
+      <!-- Mobile Hamburger -->
+      <button id="mobile-menu-toggle" class="mobile-menu-toggle" aria-label="Open Menu" aria-expanded="false" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </nav>
+</header>

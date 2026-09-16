@@ -1,0 +1,203 @@
+/* ==========================================================================
+   SCRIBBLEVERSE BASE STYLES & DESIGN SYSTEM
+   A whimsical, hand-drawn aesthetic with crayon colors and paper textures
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Gaegu:wght@400;700&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Patrick+Hand&display=swap');
+
+:root {
+  /* Crayon Box Colors */
+  --crayon-coral: #FF6B6B;
+  --crayon-yellow: #FFD93D;
+  --crayon-blue: #6BCBFF;
+  --crayon-green: #6BCB77;
+  --crayon-purple: #A06BFF;
+  --crayon-orange: #FFA447;
+
+  /* Light Theme (Warm Sketchbook Paper) */
+  --bg-main: #FFF9F0;
+  --bg-surface: #FFFFFF;
+  --bg-card: #FFFEFA;
+  --bg-muted: #F5EFE6;
+  --ink-main: #2B2B2B;
+  --ink-muted: #6B6560;
+  --ink-light: #9B948D;
+  --border-color: #2B2B2B;
+  --border-subtle: #E0D7CB;
+  --shadow-color: rgba(43, 43, 43, 0.95);
+  --shadow-soft: rgba(43, 43, 43, 0.12);
+  --tape-color: rgba(255, 243, 196, 0.85);
+  --chalk-glow: transparent;
+
+  /* Typography */
+  --font-display: 'Patrick Hand', 'Caveat', cursive;
+  --font-hand: 'Caveat', cursive;
+  --font-marker: 'Gaegu', cursive;
+  --font-body: 'Nunito', system-ui, -apple-system, sans-serif;
+
+  /* Wobbly Hand-Drawn Borders */
+  --wobble-1: 255px 15px 225px 15px/15px 225px 15px 255px;
+  --wobble-2: 20px 255px 15px 240px/230px 18px 240px 16px;
+  --wobble-3: 240px 18px 230px 14px/16px 245px 14px 235px;
+  --wobble-pill: 90px 85px 88px 92px / 88px 90px 92px 86px;
+  --wobble-card: 255px 25px 225px 25px/25px 225px 25px 255px;
+
+  /* Layout */
+  --max-width: 1200px;
+  --header-height: 80px;
+}
+
+[data-theme="dark"] {
+  /* Dark Theme (Chalkboard at Night) */
+  --bg-main: #232528;
+  --bg-surface: #2C2E33;
+  --bg-card: #282A2E;
+  --bg-muted: #1A1B1D;
+  --ink-main: #F5F3ED;
+  --ink-muted: #B8B5AE;
+  --ink-light: #7A7873;
+  --border-color: #F5F3ED;
+  --border-subtle: #45474D;
+  --shadow-color: rgba(0, 0, 0, 0.6);
+  --shadow-soft: rgba(0, 0, 0, 0.4);
+  --tape-color: rgba(255, 255, 255, 0.15);
+  --chalk-glow: 0 0 8px rgba(255, 255, 255, 0.25);
+}
+
+/* ==========================================================================
+   CSS RESET & CORE
+   ========================================================================== */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: var(--ink-main);
+  background-color: var(--bg-main);
+  position: relative;
+  min-height: 100vh;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  overflow-x: clip;
+}
+
+/* Subtle Paper / Chalkboard Grain Overlay */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+[data-theme="dark"] body::before {
+  opacity: 0.07;
+  mix-blend-mode: overlay;
+}
+
+/* Typography Defaults */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--ink-main);
+  letter-spacing: 0.01em;
+}
+
+h1 { font-size: clamp(2.5rem, 5vw, 4.2rem); }
+h2 { font-size: clamp(1.9rem, 3.5vw, 2.8rem); }
+h3 { font-size: clamp(1.4rem, 2.5vw, 2rem); }
+h4 { font-size: 1.35rem; }
+
+p {
+  margin-bottom: 1rem;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+img, svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+button, input, textarea, select {
+  font: inherit;
+  color: inherit;
+}
+
+/* Container */
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 4vw, 2.5rem);
+}
+
+.section-spacing {
+  padding-block: clamp(3.5rem, 7vw, 6.5rem);
+}
+
+/* Skip link for Accessibility */
+.skip-to-content {
+  position: absolute;
+  top: -100px;
+  left: 20px;
+  background: var(--crayon-yellow);
+  color: #2B2B2B;
+  padding: 10px 16px;
+  border: 2px solid #2B2B2B;
+  border-radius: var(--wobble-1);
+  font-weight: 700;
+  z-index: 10000;
+  transition: top 0.2s ease;
+}
+
+.skip-to-content:focus {
+  top: 20px;
+}
+
+/* Honeypot hidden fields */
+.hp-field {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  position: absolute !important;
+  left: -9999px !important;
+}
+
+/* Selection */
+::selection {
+  background: var(--crayon-yellow);
+  color: #2B2B2B;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

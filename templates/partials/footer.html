@@ -1,0 +1,66 @@
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <!-- Mascot Goodbye Wave -->
+      <div class="footer-mascot-block">
+        <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 12px;">
+          <div style="width: 64px; height: 64px;">
+            {% include 'partials/mascot.html' with class='footer-mascot-wave' %}
+          </div>
+          <div>
+            <h3 style="font-size: 1.6rem; line-height: 1.1;">Thanks for stopping by!</h3>
+            <p style="font-size: 0.95rem; color: var(--ink-muted); margin: 0;">Barnaby is waving goodbye until your next scribble session.</p>
+          </div>
+        </div>
+        <p style="font-size: 0.95rem; line-height: 1.6; color: var(--ink-muted);">
+          Scribbleverse is an independent digital sketchbook celebrating imperfect creativity, wobbly lines, and the quiet joy of drawing silly creatures in the margins.
+        </p>
+      </div>
+
+      <!-- Quick Exploration Links -->
+      <div class="footer-nav-block">
+        <h4 style="font-size: 1.3rem; margin-bottom: 14px; font-family: var(--font-display);">Explore The Verse</h4>
+        <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px; font-family: var(--font-display); font-size: 1.15rem;">
+          <li><a href="{% url 'gallery:list' %}" style="text-decoration: underline;">🎨 Doodle Scrapbook Gallery</a></li>
+          <li><a href="{% url 'journal:list' %}" style="text-decoration: underline;">📖 The Doodle Diary & Field Notes</a></li>
+          <li><a href="{% url 'core:draw' %}" style="text-decoration: underline;">✏️ Draw With Me (Canvas Studio)</a></li>
+          <li><a href="{% url 'core:about' %}" style="text-decoration: underline;">🧸 Meet Barnaby, Pip & Friends</a></li>
+          <li><a href="{% url 'guestbook:list' %}" style="text-decoration: underline;">📌 Visitor Sticky Notes Wall</a></li>
+        </ul>
+      </div>
+
+      <!-- Newsletter Box ("Doodle Drops") -->
+      <div class="footer-newsletter-card">
+        <div class="tape-strip"></div>
+        <h4 style="font-size: 1.35rem; margin-bottom: 6px; font-family: var(--font-display);">📬 Get Doodle Drops</h4>
+        <p style="font-size: 0.92rem; color: var(--ink-muted); margin-bottom: 14px;">
+          A tiny, gentle email once or twice a month with fresh doodle prompts, sketchbook wallpaper, and mascot comics. Zero spam, purely handmade.
+        </p>
+
+        <form action="{% url 'newsletter:subscribe' %}" method="POST" class="newsletter-form">
+          {% csrf_token %}
+          <!-- Honeypot -->
+          <input type="text" name="hp_url" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <input type="hidden" name="source" value="footer">
+
+          <input type="email" name="email" class="doodle-input" placeholder="your.name@sketchbook.art" required aria-label="Email address for doodle drops" style="flex: 1; padding: 8px 12px; font-size: 0.95rem;">
+          <button type="submit" class="btn-doodle btn-coral btn-sm">Join! ✨</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Bottom Line -->
+    <div class="footer-bottom">
+      <div>
+        © {{ CURRENT_YEAR }} Scribbleverse. Made with ✏️, wax crayons, and way too much coffee.
+      </div>
+      <div style="display: flex; gap: 18px; font-family: var(--font-display); font-size: 1.1rem;">
+        <span>🖍️ Keep drawing</span>
+        <span>·</span>
+        <span>☁️ Stay wobbly</span>
+        <span>·</span>
+        <span>🚀 Wander off the margins</span>
+      </div>
+    </div>
+  </div>
+</footer>

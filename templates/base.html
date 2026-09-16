@@ -1,0 +1,98 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% if page_title %}{{ page_title }} — {% endif %}{{ SITE_NAME }}</title>
+  <meta name="description" content="{{ SITE_TAGLINE }}. An interactive digital sketchbook and doodle universe filled with wobbly lines, wax crayon textures, and playful creativity.">
+
+  <!-- OpenGraph / Social -->
+  <meta property="og:title" content="{% if page_title %}{{ page_title }} — {% endif %}{{ SITE_NAME }}">
+  <meta property="og:description" content="{{ SITE_TAGLINE }}">
+  <meta property="og:type" content="website">
+
+  <!-- Immediate Theme Application (Zero-Flash, Light Mode by Default) -->
+  <script>
+    (function() {
+      try {
+        var theme = localStorage.getItem('scribbleverse_theme');
+        // Light mode is always the default when users open the link
+        document.documentElement.setAttribute('data-theme', theme || 'light');
+      } catch (e) {}
+    })();
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Gaegu:wght@400;700&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Patrick+Hand&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="{% static 'css/base.css' %}?v=4.1">
+  <link rel="stylesheet" href="{% static 'css/components.css' %}?v=4.1">
+  <link rel="stylesheet" href="{% static 'css/pages.css' %}?v=4.1">
+
+  <!-- GSAP 3 & ScrollTrigger for Signature Scroll-Tracking Doodle Line -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+  <!-- Skip link -->
+  <a href="#main-content" class="skip-to-content">Skip to content</a>
+
+  <!-- Top Navigation Header -->
+  {% include 'partials/nav.html' %}
+
+  <!-- Django Messages (Toasts) -->
+  {% if messages %}
+    <div class="messages-container" aria-live="polite">
+      {% for message in messages %}
+        <div class="doodle-toast {% if message.tags %}{{ message.tags }}{% endif %}">
+          <span>{{ message }}</span>
+          <button type="button" onclick="this.parentElement.remove()" style="background:none; border:none; cursor:pointer; font-size:1.1rem; font-weight:bold;">✕</button>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <!-- Main Content -->
+  <main id="main-content">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Persistent Mobile Bottom Navigation Dock (Always accessible on phones) -->
+  <nav class="mobile-bottom-dock" aria-label="Mobile Bottom Navigation">
+    <a href="{% url 'core:home' %}" class="mobile-dock-btn {% if active_nav == 'home' %}active{% endif %}" title="Home Page">
+      <span class="mobile-dock-icon">🏠</span>
+      <span class="mobile-dock-label">Home</span>
+    </a>
+    <a href="{% url 'core:draw' %}" class="mobile-dock-btn {% if active_nav == 'draw' %}active{% endif %}" title="Draw With Me Studio">
+      <span class="mobile-dock-icon">✏️</span>
+      <span class="mobile-dock-label">Draw</span>
+    </a>
+    <a href="{% url 'gallery:list' %}" class="mobile-dock-btn {% if active_nav == 'gallery' %}active{% endif %}" title="Doodle Gallery">
+      <span class="mobile-dock-icon">🎨</span>
+      <span class="mobile-dock-label">Gallery</span>
+    </a>
+    <a href="{% url 'journal:list' %}" class="mobile-dock-btn {% if active_nav == 'journal' %}active{% endif %}" title="Doodle Diary">
+      <span class="mobile-dock-icon">📖</span>
+      <span class="mobile-dock-label">Diary</span>
+    </a>
+    <a href="{% url 'guestbook:list' %}" class="mobile-dock-btn {% if active_nav == 'guestbook' %}active{% endif %}" title="Guestbook Stickies">
+      <span class="mobile-dock-icon">📌</span>
+      <span class="mobile-dock-label">Stickies</span>
+    </a>
+  </nav>
+
+  <!-- Footer -->
+  {% include 'partials/footer.html' %}
+
+  <!-- Global Scripts -->
+  <script src="{% static 'js/cute-audio.js' %}"></script>
+  <script src="{% static 'js/theme.js' %}"></script>
+  {% block extra_scripts %}{% endblock %}
+</body>
+</html>

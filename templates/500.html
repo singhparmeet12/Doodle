@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container section-spacing" style="text-align: center;">
+  <div class="doodle-card" style="max-width: 580px; margin: 0 auto; padding: 40px;">
+    <div class="tape-strip"></div>
+    <div style="width: 160px; height: 160px; margin: 0 auto 20px;">
+      {% include 'partials/mascot.html' with class='confused-mascot' %}
+    </div>
+    <h1 style="font-size: 3rem; color: var(--crayon-coral); margin-bottom: 8px;">500</h1>
+    <h2 style="font-size: 1.8rem; margin-bottom: 14px;">The Ink Well Tipped Over!</h2>
+    <p style="color: var(--ink-muted); margin-bottom: 24px; font-size: 1.1rem;">
+      A sudden server hiccup spilled graphite all over the workshop. Our tiny doodle engineers are currently blotting it with paper towels.
+    </p>
+    <a href="{% url 'core:home' %}" class="btn-doodle btn-yellow">
+      Return Safely Home 🏠
+    </a>
+  </div>
+</div>
+{% endblock %}

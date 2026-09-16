@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container section-spacing" style="text-align: center;">
+  <div class="doodle-card" style="max-width: 580px; margin: 0 auto; padding: 40px;">
+    <div class="tape-strip"></div>
+    <div style="width: 160px; height: 160px; margin: 0 auto 20px;">
+      {% include 'partials/mascot.html' with class='confused-mascot' %}
+    </div>
+    <h1 style="font-size: 3rem; color: var(--crayon-coral); margin-bottom: 8px;">404</h1>
+    <h2 style="font-size: 1.8rem; margin-bottom: 14px;">Oops! This page fell out of the sketchbook.</h2>
+    <p style="color: var(--ink-muted); margin-bottom: 24px; font-size: 1.1rem;">
+      Barnaby flipped through all the spiral-bound pages and checked under the eraser shavings, but could not locate this URL.
+    </p>
+    <div style="display: flex; justify-content: center; gap: 14px;">
+      <a href="{% url 'core:home' %}" class="btn-doodle btn-yellow">
+        Return Home 🏠
+      </a>
+      <a href="{% url 'core:draw' %}" class="btn-doodle btn-coral">
+        Draw A New Page ✏️
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

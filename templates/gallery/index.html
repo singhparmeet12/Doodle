@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container section-spacing">
+  <div class="section-header">
+    <span class="section-tagline">🎨 The Digital Scrapbook</span>
+    <h1>Doodle Gallery</h1>
+    <p class="section-subtitle">
+      A curated collage of sketchbook pages, marginalia, and character studies. Filter by character or click any card for an ink-level close-up!
+    </p>
+  </div>
+
+  <!-- Character Filter Pills -->
+  <div class="gallery-filter-bar">
+    {% for tag_slug, tag_name in character_choices %}
+      <a href="?tag={{ tag_slug }}" class="filter-chip {% if current_tag == tag_slug %}active{% endif %}">
+        {{ tag_name }}
+      </a>
+    {% endfor %}
+  </div>
+
+  <!-- Scrapbook Polaroid Masonry Grid -->
+  {% if page_obj %}
+    <div class="gallery-scrapbook-grid">
+      {% for doodle in page_obj %}
+        <div class="scrapbook-polaroid-item"
+             style="transform: rotate({{ doodle.tilt_deg }}deg);"
+             data-title="{{ doodle.title }}"
+             data-caption="{{ doodle.caption }}"
+             data-character="{{ doodle.get_character_tag_display }}"
+             data-date="{{ doodle.created_at|date:'F j, Y' }}"
+             tabindex="0"
+             role="button"
+             aria-label="View {{ doodle.title }}">
+          <div class="tape-strip"></div>
+          <div class="polaroid-art-stage">
+            {% if doodle.svg_content %}
+              {{ doodle.svg_content|safe }}
+            {% elif doodle.image %}
+              <img src="{{ doodle.image.url }}" alt="{{ doodle.title }}" loading="lazy">
+            {% else %}
+              <div style="font-family: var(--font-hand); font-size: 1.4rem; color: var(--ink-muted);">
+                ✏️ Sketching in progress...
+              </div>
+            {% endif %}
+          </div>
+          <h3 style="font-size: 1.25rem; margin-bottom: 4px;">{{ doodle.title }}</h3>
+          <p class="polaroid-caption">"{{ doodle.caption }}"</p>
+          <div class="polaroid-meta-footer">
+            <span class="badge-tag tag-{{ doodle.character_tag }}">{{ doodle.get_character_tag_display }}</span>
+            <span>{{ doodle.created_at|date:"M j, Y" }}</span>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <!-- Pagination Controls -->
+    {% if page_obj.has_other_pages %}
+      <div style="display: flex; justify-content: center; gap: 12px; margin-top: 4rem;">
+        {% if page_obj.has_previous %}
+          <a href="?tag={{ current_tag }}&page={{ page_obj.previous_page_number }}" class="btn-doodle btn-yellow btn-sm">
+            ← Previous Page
+          </a>
+        {% endif %}
+
+        <span style="display: flex; align-items: center; font-family: var(--font-display); font-size: 1.25rem; font-weight: bold;">
+          Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+
+        {% if page_obj.has_next %}
+          <a href="?tag={{ current_tag }}&page={{ page_obj.next_page_number }}" class="btn-doodle btn-coral btn-sm">
+            Next Page →
+          </a>
+        {% endif %}
+      </div>
+    {% endif %}
+
+  {% else %}
+    <!-- Empty State with Barnaby Sleeping -->
+    <div class="doodle-card" style="text-align: center; max-width: 480px; margin: 3rem auto; padding: 40px;">
+      <div class="tape-strip"></div>
+      <div style="width: 140px; height: 140px; margin: 0 auto 16px;">
+        {% include 'partials/mascot.html' with class='empty-mascot' %}
+      </div>
+      <h3 style="font-size: 1.6rem; margin-bottom: 8px;">No doodles found in this folder!</h3>
+      <p style="color: var(--ink-muted); margin-bottom: 20px;">
+        Barnaby hasn't drawn any doodles for this tag yet. Why not draw one yourself?
+      </p>
+      <a href="{% url 'core:draw' %}" class="btn-doodle btn-coral">
+        Draw A Doodle Now ✏️
+      </a>
+    </div>
+  {% endif %}
+</div>
+
+<!-- Lightbox Modal -->
+<div id="gallery-lightbox" class="doodle-lightbox" role="dialog" aria-modal="true" aria-label="Doodle Lightbox">
+  <div class="lightbox-content">
+    <button id="lightbox-close-btn" class="lightbox-close" aria-label="Close Lightbox">✕</button>
+    <div id="lightbox-body"></div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{% static 'js/gallery.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,378 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div id="homepage-interactive-container" class="homepage-container">
+
+  <!-- Signature GSAP Scroll-Tracking Doodle Line & Tip Follower -->
+  <div class="scroll-line-svg-container" aria-hidden="true">
+    <svg id="scroll-line-svg">
+      <path id="scroll-doodle-path" class="scroll-doodle-path" d="" />
+    </svg>
+    <div id="scroll-mascot-tip" class="scroll-mascot-tip">
+      {% include 'partials/mascot.html' with class='tip-mascot-img' %}
+    </div>
+  </div>
+
+  <!-- 1. HERO SECTION -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-text-content">
+          <span class="section-tagline">✨ Welcome to the digital sketchbook</span>
+          <h1 class="hero-headline">
+            Where <span class="highlight-crayon">wobbly doodles</span> wander off the margins.
+          </h1>
+          <p class="hero-subhead">
+            Step inside an ongoing hand-drawn universe. No sterile corporate grids, no stiff pixel-perfect rectangles — just wax crayons, quirky characters, and playful creativity made to make you smile.
+          </p>
+
+          <div class="hero-cta-group">
+            <a href="{% url 'core:draw' %}" class="btn-doodle btn-coral">
+              <span>Start Doodling Now</span> ✏️
+            </a>
+            <a href="{% url 'gallery:list' %}" class="btn-doodle btn-yellow">
+              <span>Explore Gallery</span> 🎨
+            </a>
+          </div>
+
+          <div class="hero-stats-banner">
+            <div class="hero-stat-item">
+              <span class="hero-stat-num">{{ TOTAL_DOODLES }}</span>
+              <span class="hero-stat-label">Handmade Doodles</span>
+            </div>
+            <div class="hero-stat-item">
+              <span class="hero-stat-num">{{ TOTAL_PROMPTS }}</span>
+              <span class="hero-stat-label">Inspiring Prompts</span>
+            </div>
+            <div class="hero-stat-item">
+              <span class="hero-stat-num">{{ APPROVED_STICKIES }}</span>
+              <span class="hero-stat-label">Visitor Stickies</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-mascot-stage">
+          <!-- Floating interactive doodle companions -->
+          <div class="hero-floating-doodle doodle-float-star" title="Click me for a twinkle!" onclick="if(window.CuteAudio)CuteAudio.sparkle();this.classList.toggle('spin-pop')">
+            <svg viewBox="0 0 50 50" width="42" height="42">
+              <polygon points="25,2 31,16 47,17 35,28 39,44 25,35 11,44 15,28 3,17 19,16" fill="#FFD93D" stroke="var(--ink-main, #2B2B2B)" stroke-width="2.5"/>
+              <circle cx="21" cy="22" r="2" fill="var(--ink-main, #2B2B2B)"/>
+              <circle cx="29" cy="22" r="2" fill="var(--ink-main, #2B2B2B)"/>
+              <path d="M23,26 Q25,29 27,26" fill="none" stroke="var(--ink-main, #2B2B2B)" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+
+          <div class="hero-floating-doodle doodle-float-bird" title="Pip says hi!" onclick="if(window.CuteAudio)CuteAudio.pop();this.classList.toggle('chirp-bounce')">
+            <svg viewBox="0 0 60 50" width="48" height="40">
+              <ellipse cx="28" cy="26" rx="18" ry="14" fill="#6BCBFF" stroke="var(--ink-main, #2B2B2B)" stroke-width="2.5"/>
+              <polygon points="42,24 56,26 42,30" fill="#FFD93D" stroke="var(--ink-main, #2B2B2B)" stroke-width="2"/>
+              <polygon points="52,25 56,26 52,27" fill="var(--ink-main, #2B2B2B)"/>
+              <circle cx="34" cy="22" r="2.5" fill="var(--ink-main, #2B2B2B)"/>
+              <path d="M22,24 C14,28 12,36 24,32" fill="#FF6B6B" stroke="var(--ink-main, #2B2B2B)" stroke-width="2"/>
+            </svg>
+          </div>
+
+          <!-- Main Interactive Mascot Card (NO overlapping tape strip!) -->
+          <div class="mascot-hero-card">
+            <!-- Dynamic Speech Bubble -->
+            <div id="hero-speech-bubble" class="mascot-speech-bubble" title="Click to hear Barnaby talk!">
+              "Psst... move your mouse, I'm watching you!" 👀
+            </div>
+
+            <!-- Interactive Barnaby SVG with Eye Tracking & Wardrobe Layer -->
+            <div class="mascot-interactive-canvas-wrapper" title="Click Barnaby to poke him!">
+              <svg id="hero-interactive-barnaby" viewBox="0 0 160 160" class="hero-interactive-barnaby-svg" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Interactive Barnaby">
+                <!-- Blob Body -->
+                <path id="hero-barnaby-body"
+                      d="M35,80 C25,40 60,20 85,25 C115,30 135,45 130,85 C125,120 105,135 75,130 C45,125 45,105 35,80 Z"
+                      fill="#FFD93D" stroke="#2B2B2B" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round"/>
+
+                <!-- Rosy Cheeks -->
+                <ellipse id="hero-cheek-left" cx="55" cy="80" rx="9" ry="6" fill="#FF6B6B" opacity="0.7"/>
+                <ellipse id="hero-cheek-right" cx="105" cy="81" rx="9" ry="6" fill="#FF6B6B" opacity="0.7"/>
+
+                <!-- Eye Sockets (Clean white backdrop with dark cartoon stroke) -->
+                <ellipse cx="65" cy="68" rx="8.5" ry="9.5" fill="#FFFFFF" stroke="#2B2B2B" stroke-width="2.8"/>
+                <ellipse cx="95" cy="69" rx="8.5" ry="9.5" fill="#FFFFFF" stroke="#2B2B2B" stroke-width="2.8"/>
+
+                <!-- Eye Pupils (Solid dark ink #2B2B2B so they are always visible and expressive!) -->
+                <circle id="hero-pupil-left" cx="65" cy="68" r="4.2" fill="#2B2B2B"/>
+                <circle id="hero-pupil-right" cx="95" cy="69" r="4.2" fill="#2B2B2B"/>
+
+                <!-- Smiling Mouth (Always cute dark ink smile!) -->
+                <path id="hero-barnaby-mouth" d="M73,82 Q80,91 87,82" fill="none" stroke="#2B2B2B" stroke-width="3.2" stroke-linecap="round"/>
+
+                <!-- Little Crayon in Hand -->
+                <g id="hero-barnaby-crayon-hand">
+                  <path d="M115,88 L142,65 L148,71 L121,94 Z" fill="#FF6B6B" stroke="#2B2B2B" stroke-width="2.6"/>
+                  <polygon points="142,65 154,58 148,71" fill="#FF6B6B" stroke="#2B2B2B" stroke-width="2"/>
+                </g>
+
+                <!-- Wearable Accessories / Hats Layer (Dynamically populated) -->
+                <g id="hero-hat-layer"></g>
+              </svg>
+            </div>
+
+            <div style="margin-top: 8px; margin-bottom: 8px;">
+              <h3 style="font-size: 1.45rem; margin: 0; font-family: var(--font-display); font-weight: 800;">Barnaby</h3>
+            </div>
+
+            <!-- Wardrobe Dress-Up & Color Customizer -->
+            <div class="hero-customizer-box">
+              <div class="customizer-row">
+                <span class="customizer-label">Hats:</span>
+                <div class="customizer-btn-group">
+                  <button type="button" class="wardrobe-hat-btn active" data-hat="none" title="Natural / No Hat">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="8"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                  </button>
+                  <button type="button" class="wardrobe-hat-btn" data-hat="beret" title="Artist Beret">
+                    <svg width="22" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v2" /><path d="M3 14c0-4 4-8 9-8s9 4 9 8-4 4-9 4-9 0-9-4z" fill="#FF85B3" fill-opacity="0.35"/><path d="M6 15c2 2 10 2 12 0" /></svg>
+                  </button>
+                  <button type="button" class="wardrobe-hat-btn" data-hat="party" title="Party Cone">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12,3 4,20 20,20" fill="#FFD93D" fill-opacity="0.4"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/><circle cx="9" cy="17" r="1.5" fill="currentColor"/><circle cx="15" cy="16" r="1.5" fill="currentColor"/><path d="M12 3c-1-2 2-2 1-3" /></svg>
+                  </button>
+                  <button type="button" class="wardrobe-hat-btn" data-hat="tophat" title="Classy Top Hat">
+                    <svg width="22" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 19h18" /><rect x="6" y="5" width="12" height="14" rx="2" fill="#2B2B2B" fill-opacity="0.25"/><path d="M6 15h12" stroke="#FFD93D" stroke-width="2.5"/></svg>
+                  </button>
+                  <button type="button" class="wardrobe-hat-btn" data-hat="flower" title="Daisy Flower">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3" fill="#FFD93D"/><circle cx="12" cy="6" r="3" fill="#FF85B3" fill-opacity="0.4"/><circle cx="18" cy="10" r="3" fill="#FF85B3" fill-opacity="0.4"/><circle cx="16" cy="17" r="3" fill="#FF85B3" fill-opacity="0.4"/><circle cx="8" cy="17" r="3" fill="#FF85B3" fill-opacity="0.4"/><circle cx="6" cy="10" r="3" fill="#FF85B3" fill-opacity="0.4"/></svg>
+                  </button>
+                  <button type="button" class="wardrobe-hat-btn" data-hat="crown" title="Royal Crown">
+                    <svg width="22" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3,19 4,8 9,13 12,5 15,13 20,8 21,19" fill="#FFD93D" fill-opacity="0.4"/><circle cx="4" cy="7" r="1.5" fill="#FF6B6B"/><circle cx="12" cy="4" r="1.5" fill="#FF6B6B"/><circle cx="20" cy="7" r="1.5" fill="#FF6B6B"/><line x1="4" y1="19" x2="20" y2="19"/></svg>
+                  </button>
+                  <button type="button" class="wardrobe-hat-btn" data-hat="bowtie" title="Cute Bowtie">
+                    <svg width="22" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3,7 10,12 3,17" fill="#FF6B6B" fill-opacity="0.4"/><polygon points="21,7 14,12 21,17" fill="#FF6B6B" fill-opacity="0.4"/><circle cx="12" cy="12" r="3" fill="#FFD93D"/></svg>
+                  </button>
+                </div>
+              </div>
+
+              <div class="customizer-row" style="margin-top: 6px;">
+                <span class="customizer-label">Color:</span>
+                <div class="customizer-btn-group">
+                  <button type="button" class="wardrobe-color-btn active" data-color="#FFD93D" style="background:#FFD93D;" title="Sunshine Yellow"></button>
+                  <button type="button" class="wardrobe-color-btn" data-color="#FF85B3" style="background:#FF85B3;" title="Bubblegum Pink"></button>
+                  <button type="button" class="wardrobe-color-btn" data-color="#6BCBFF" style="background:#6BCBFF;" title="Sky Blue"></button>
+                  <button type="button" class="wardrobe-color-btn" data-color="#7FE7CC" style="background:#7FE7CC;" title="Mint Green"></button>
+                  <button type="button" class="wardrobe-color-btn" data-color="#B8A4FF" style="background:#B8A4FF;" title="Lavender"></button>
+                  <button type="button" class="wardrobe-color-btn" data-color="#FFA447" style="background:#FFA447;" title="Tangerine"></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {% include 'partials/wobbly_divider.html' %}
+
+  <!-- 2. FEATURED DOODLES GALLERY PREVIEW -->
+  <section class="section-spacing">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tagline">🎨 Fresh From The Drawing Table</span>
+        <h2>Scrapbook Highlights</h2>
+        <p class="section-subtitle">A handful of our favorite recent doodles taped to the cardboard wall. Click any card to examine the ink up close!</p>
+      </div>
+
+      <div class="gallery-scrapbook-grid">
+        {% for doodle in featured_doodles %}
+          <div class="scrapbook-polaroid-item"
+               style="transform: rotate({{ doodle.tilt_deg }}deg);"
+               data-title="{{ doodle.title }}"
+               data-caption="{{ doodle.caption }}"
+               data-character="{{ doodle.get_character_tag_display }}"
+               data-date="{{ doodle.created_at|date:'F j, Y' }}"
+               tabindex="0"
+               role="button"
+               aria-label="View {{ doodle.title }}">
+            <div class="tape-strip"></div>
+            <div class="polaroid-art-stage">
+              {% if doodle.svg_content %}
+                {{ doodle.svg_content|safe }}
+              {% elif doodle.image %}
+                <img src="{{ doodle.image.url }}" alt="{{ doodle.title }}" loading="lazy">
+              {% else %}
+                <div style="font-family: var(--font-hand); font-size: 1.5rem; text-align: center; color: var(--ink-muted);">
+                  [Doodle in progress ✏️]
+                </div>
+              {% endif %}
+            </div>
+            <h3 style="font-size: 1.25rem; margin-bottom: 4px;">{{ doodle.title }}</h3>
+            <p class="polaroid-caption">"{{ doodle.caption }}"</p>
+            <div class="polaroid-meta-footer">
+              <span class="badge-tag tag-{{ doodle.character_tag }}">{{ doodle.get_character_tag_display }}</span>
+              <span>{{ doodle.created_at|date:"M j" }}</span>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      <div style="text-align: center; margin-top: 3.5rem;">
+        <a href="{% url 'gallery:list' %}" class="btn-doodle btn-yellow">
+          View All {{ TOTAL_DOODLES }} Scrapbook Doodles →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  {% include 'partials/wobbly_divider.html' %}
+
+  <!-- 3. RANDOM DOODLE PROMPT GENERATOR -->
+  <section class="section-spacing" style="position: relative;">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tagline">💡 Creative Block Antidote</span>
+        <h2>The Random Prompt Dispenser</h2>
+        <p class="section-subtitle">Staring at a blank page? Let Barnaby pull a whimsical challenge out of his paper hat.</p>
+      </div>
+
+      <div class="prompt-generator-wrapper">
+        <div id="prompt-scroll-card" class="prompt-scroll-card">
+          <div class="tape-strip"></div>
+
+          <div class="prompt-meta-badge">
+            <span id="prompt-category-badge" class="badge-tag tag-barnaby">
+              {% if initial_prompt %}{{ initial_prompt.get_category_display }}{% else %}Creatures & Pets 🐾{% endif %}
+            </span>
+            <span id="prompt-difficulty-badge" class="badge-tag tag-pip">
+              {% if initial_prompt %}{{ initial_prompt.get_difficulty_display }}{% else %}Playful Sketch 🎨{% endif %}
+            </span>
+          </div>
+
+          <div id="prompt-text-display" class="prompt-text-display">
+            {% if initial_prompt %}
+              "{{ initial_prompt.text }}"
+            {% else %}
+              "Draw your dream pet if it were made entirely of fluffy cloud dough."
+            {% endif %}
+          </div>
+
+          <div class="prompt-actions-row">
+            <button id="get-new-prompt-btn" class="btn-doodle btn-coral">
+              <span>Give Me Another!</span> 🎲
+            </button>
+            <button id="copy-prompt-btn" class="btn-doodle btn-outline btn-sm">
+              <span>Copy Prompt</span> 📋
+            </button>
+            <a id="draw-prompt-btn"
+               href="{% if initial_prompt %}{% url 'core:draw' %}?prompt={{ initial_prompt.text|urlencode }}{% else %}{% url 'core:draw' %}{% endif %}"
+               class="btn-doodle btn-green btn-sm">
+              <span>Draw In Studio</span> 🎨
+            </a>
+          </div>
+
+          <div class="prompt-counter-pill">
+            🌟 Over <strong id="prompts-today-count">143</strong> prompts handed out to daydreamers today!
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {% include 'partials/wobbly_divider.html' %}
+
+  <!-- 4. DOODLE DIARY PREVIEW -->
+  <section class="section-spacing">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tagline">📖 Field Notes & Stories</span>
+        <h2>The Doodle Diary</h2>
+        <p class="section-subtitle">Thoughts on imperfect art, accidental masterpieces, and graphite-smudged afternoons.</p>
+      </div>
+
+      <div class="diary-grid">
+        {% for post in recent_posts %}
+          <article class="diary-entry-card">
+            <div>
+              <div class="tape-corner-left"></div>
+              <div class="diary-cover-art">
+                {% if post.svg_cover %}
+                  {{ post.svg_cover|safe }}
+                {% elif post.cover_image %}
+                  <img src="{{ post.cover_image.url }}" alt="{{ post.title }}" loading="lazy">
+                {% else %}
+                  <div style="font-family: var(--font-hand); font-size: 1.4rem; color: var(--ink-muted);">
+                    📖 Diary Entry
+                  </div>
+                {% endif %}
+              </div>
+              <span class="badge-tag" style="margin-bottom: 8px;">{{ post.mood }}</span>
+              <h3 style="font-size: 1.4rem; margin-bottom: 8px;">
+                <a href="{% url 'journal:detail' slug=post.slug %}" style="color: var(--ink-main); text-decoration: none;">
+                  {{ post.title }}
+                </a>
+              </h3>
+              <p style="font-size: 0.98rem; color: var(--ink-muted); line-height: 1.55;">
+                {{ post.excerpt|truncatewords:24 }}
+              </p>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; padding-top: 10px; border-top: 1px dashed var(--border-subtle); font-size: 0.88rem; color: var(--ink-muted);">
+              <span>{{ post.published_date|date:"F j, Y" }}</span>
+              <a href="{% url 'journal:detail' slug=post.slug %}" style="font-family: var(--font-display); font-size: 1.15rem; font-weight: bold; color: var(--crayon-coral); text-decoration: underline;">
+                Read Entry →
+              </a>
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+
+      <div style="text-align: center; margin-top: 3.5rem;">
+        <a href="{% url 'journal:list' %}" class="btn-doodle btn-yellow">
+          Read All Diary Entries & Field Notes →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  {% include 'partials/wobbly_divider.html' %}
+
+  <!-- 5. GUESTBOOK STICKIES TEASER -->
+  <section class="section-spacing">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tagline">📌 Wall Of Warmth</span>
+        <h2>Visitor Sticky Notes</h2>
+        <p class="section-subtitle">Little thoughts, drawings, and doodles pinned by visitors from across the world.</p>
+      </div>
+
+      <div class="stickies-wall-grid">
+        {% for note in guestbook_stickies %}
+          <div class="sticky-note-card sticky-{{ note.paper_color }}" style="transform: rotate({{ note.tilt_deg }}deg);">
+            <div class="sticky-pin"></div>
+            <p class="sticky-message">"{{ note.message }}"</p>
+            <div class="sticky-author-row">
+              <span>✍️ {{ note.name }}</span>
+              <span>{{ note.get_mood_display }}</span>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      <div style="text-align: center; margin-top: 3.5rem;">
+        <a href="{% url 'guestbook:list' %}" class="btn-doodle btn-coral">
+          Pin Your Sticky Note On The Wall 📌
+        </a>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- Lightbox Modal for Gallery Inspection -->
+<div id="gallery-lightbox" class="doodle-lightbox" role="dialog" aria-modal="true" aria-label="Doodle Lightbox">
+  <div class="lightbox-content">
+    <button id="lightbox-close-btn" class="lightbox-close" aria-label="Close Lightbox">✕</button>
+    <div id="lightbox-body"></div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{% static 'js/cute-audio.js' %}"></script>
+<script src="{% static 'js/hero-mascot.js' %}"></script>
+<script src="{% static 'js/scroll-line.js' %}"></script>
+<script src="{% static 'js/prompt-generator.js' %}"></script>
+<script src="{% static 'js/gallery.js' %}"></script>
+{% endblock %}

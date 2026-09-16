@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container section-spacing">
+  <div class="section-header">
+    <span class="section-tagline">📌 Community Sticky Wall</span>
+    <h1>The Scribbleverse Guestbook</h1>
+    <p class="section-subtitle">
+      Pin a friendly greeting, a creative thought, or an encouraging doodle message for fellow daydreamers.
+    </p>
+  </div>
+
+  <div class="guestbook-layout">
+    <!-- 1. Sticky Note Submission Form -->
+    <div class="guestbook-form-card">
+      <div class="doodle-card">
+        <div class="tape-strip"></div>
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 1.2rem;">
+          <div style="width: 44px; height: 44px;">
+            {% include 'partials/mascot.html' with class='form-mascot-tiny' %}
+          </div>
+          <div>
+            <h3 style="font-size: 1.5rem; margin: 0;">Pin Your Note</h3>
+            <p style="font-size: 0.88rem; color: var(--ink-muted); margin: 0;">Reviewed by Barnaby before posting!</p>
+          </div>
+        </div>
+
+        <!-- Status message container for AJAX -->
+        <div id="guestbook-status-msg" style="display: none; margin-bottom: 1rem;"></div>
+
+        <form id="guestbook-note-form" action="{% url 'guestbook:submit' %}" method="POST">
+          {% csrf_token %}
+
+          <!-- Honeypot Field for anti-bot defense -->
+          <input type="text" name="hp_website" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+          <div class="form-group">
+            <label for="{{ form.name.id_for_label }}" class="doodle-label">Your Nickname or Pen Name:</label>
+            {{ form.name }}
+            {% if form.name.errors %}
+              <small style="color: #FF6B6B; font-weight: bold;">{{ form.name.errors.0 }}</small>
+            {% endif %}
+          </div>
+
+          <div class="form-group">
+            <label for="{{ form.message.id_for_label }}" class="doodle-label">Your Message or Thought:</label>
+            {{ form.message }}
+            {% if form.message.errors %}
+              <small style="color: #FF6B6B; font-weight: bold;">{{ form.message.errors.0 }}</small>
+            {% endif %}
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+            <div class="form-group">
+              <label for="{{ form.mood.id_for_label }}" class="doodle-label">Doodle Mood:</label>
+              {{ form.mood }}
+            </div>
+
+            <div class="form-group">
+              <label for="{{ form.paper_color.id_for_label }}" class="doodle-label">Paper Color:</label>
+              {{ form.paper_color }}
+            </div>
+          </div>
+
+          <div style="background: var(--bg-muted); border: 1.5px dashed var(--border-subtle); border-radius: var(--wobble-1); padding: 12px; margin-bottom: 1.4rem; font-size: 0.88rem; color: var(--ink-muted);">
+            🛡️ <strong>Safety Note:</strong> To keep this wall wholesome, notes require quick admin moderation before appearing publicly.
+          </div>
+
+          <button type="submit" class="btn-doodle btn-coral" style="width: 100%;">
+            <span>Pin It To The Wall</span> 📌✨
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- 2. Public Wall of Approved Sticky Notes -->
+    <div class="guestbook-wall-area">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+        <h3 style="font-size: 1.6rem; margin: 0;">
+          Pinned Notes ({{ total_notes }})
+        </h3>
+        <span style="font-size: 0.9rem; color: var(--ink-muted);">
+          Tap notes to see who left them!
+        </span>
+      </div>
+
+      <div id="stickies-wall-grid" class="stickies-wall-grid">
+        {% for note in stickies %}
+          <div class="sticky-note-card sticky-{{ note.paper_color }}" style="transform: rotate({{ note.tilt_deg }}deg);">
+            <div class="sticky-pin"></div>
+            <!-- Auto-escaped by Django templates for XSS protection -->
+            <p class="sticky-message">"{{ note.message }}"</p>
+            <div class="sticky-author-row">
+              <span>✍️ {{ note.name }}</span>
+              <span>{{ note.get_mood_display }}</span>
+            </div>
+            <div style="font-size: 0.75rem; color: var(--ink-muted); margin-top: 6px; text-align: right;">
+              {{ note.created_at|date:"M j, Y" }}
+            </div>
+          </div>
+        {% empty %}
+          <div class="doodle-card" style="grid-column: 1 / -1; text-align: center; padding: 40px;">
+            <p style="font-family: var(--font-hand); font-size: 1.5rem;">
+              The drying rack is clean! Be the very first daydreamer to pin a note.
+            </p>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{% static 'js/guestbook.js' %}"></script>
+{% endblock %}

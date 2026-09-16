@@ -1,0 +1,741 @@
+/* ==========================================================================
+   SCRIBBLEVERSE COMPONENT STYLES
+   Buttons, Nav, Cards, Badges, Modals, Stickers, Dividers
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. NAVIGATION
+   -------------------------------------------------------------------------- */
+.site-header {
+  position: sticky;
+  top: 12px;
+  z-index: 1000;
+  margin-inline: clamp(8px, 3vw, 24px);
+}
+
+.nav-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 18px;
+  background: var(--bg-surface);
+  border: 2.5px solid var(--border-color);
+  border-radius: 9999px;
+  box-shadow: 0 4px 0 var(--shadow-color);
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease, background-color 0.3s ease;
+}
+
+.site-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--ink-main);
+  text-decoration: none;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  flex-shrink: 0;
+}
+
+.site-logo:hover {
+  transform: translateY(-2px) scale(1.03);
+}
+
+.logo-mascot-icon {
+  width: 34px;
+  height: 34px;
+  animation: gentle-wobble 4s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+.site-logo span.dot {
+  color: var(--crayon-coral);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+}
+
+/* Popping Tactile Pill Nav Links */
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-display);
+  font-size: 1.12rem;
+  font-weight: 700;
+  color: var(--ink-main);
+  text-decoration: none;
+  padding: 6px 13px;
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background: transparent;
+  transition: all 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
+  user-select: none;
+  white-space: nowrap;
+}
+
+.nav-link-icon {
+  font-size: 1.05rem;
+  line-height: 1;
+  display: inline-block;
+  transition: transform 0.18s ease;
+}
+
+.nav-link:hover {
+  transform: translateY(-3px) scale(1.06);
+  background: var(--crayon-yellow, #FFD93D);
+  color: #2B2B2B !important;
+  border-color: var(--border-color);
+  box-shadow: 0 4px 0 var(--shadow-color);
+}
+
+.nav-link:hover .nav-link-icon {
+  transform: rotate(-10deg) scale(1.15);
+}
+
+.nav-link.active {
+  background: #FFD93D;
+  color: #2B2B2B !important;
+  border-color: var(--border-color);
+  box-shadow: 0 2px 0 var(--shadow-color);
+  transform: translateY(1px);
+}
+
+.nav-link:active {
+  transform: translateY(2px) scale(0.97);
+  box-shadow: 0 1px 0 var(--shadow-color);
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* Theme & Sound Toggle Buttons */
+.theme-toggle-btn {
+  background: var(--bg-muted);
+  border: 2px solid var(--border-color);
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  min-width: 38px;
+  min-height: 38px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  box-shadow: 0 2.5px 0 var(--shadow-color);
+  transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.15s ease, box-shadow 0.15s ease;
+  padding: 0;
+  user-select: none;
+}
+
+.theme-toggle-btn:hover {
+  transform: translateY(-2px) scale(1.08) rotate(6deg);
+  background: var(--crayon-yellow);
+  box-shadow: 0 4px 0 var(--shadow-color);
+}
+
+.theme-toggle-btn:active {
+  transform: translateY(1px) scale(0.95);
+  box-shadow: 0 1px 0 var(--shadow-color);
+}
+
+.theme-toggle-btn svg {
+  width: 20px;
+  height: 20px;
+  stroke: var(--ink-main);
+  fill: none;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+[data-theme="dark"] .icon-sun { display: block; }
+[data-theme="dark"] .icon-moon { display: none; }
+[data-theme="light"] .icon-sun { display: none; }
+[data-theme="light"] .icon-moon { display: block; }
+
+/* Mobile Menu Toggle */
+.mobile-menu-toggle {
+  display: none;
+  background: var(--bg-muted);
+  border: 2px solid var(--border-color);
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  min-width: 38px;
+  min-height: 38px;
+  padding: 0;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2.5px 0 var(--shadow-color);
+  transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.15s ease, box-shadow 0.15s ease;
+}
+
+.mobile-menu-toggle:hover {
+  transform: translateY(-2px) scale(1.08);
+  background: var(--crayon-yellow);
+  box-shadow: 0 4px 0 var(--shadow-color);
+}
+
+.mobile-menu-toggle:active {
+  transform: translateY(1px) scale(0.95);
+  box-shadow: 0 1px 0 var(--shadow-color);
+}
+
+.mobile-menu-toggle svg {
+  width: 20px;
+  height: 20px;
+  stroke: var(--ink-main);
+}
+
+/* --------------------------------------------------------------------------
+   2. BUTTONS & BADGES
+   -------------------------------------------------------------------------- */
+.btn-doodle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 700;
+  padding: 10px 24px;
+  background: var(--bg-surface);
+  color: #2B2B2B;
+  border: 2.5px solid var(--border-color);
+  border-radius: var(--wobble-pill);
+  box-shadow: 3px 4px 0px var(--shadow-color);
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.15s ease-out;
+  position: relative;
+  user-select: none;
+}
+
+.btn-doodle:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 4px 6px 0px var(--shadow-color);
+}
+
+.btn-doodle:active {
+  transform: translateY(2px) scale(0.99);
+  box-shadow: 1px 1px 0px var(--shadow-color);
+}
+
+.btn-coral {
+  background: var(--crayon-coral);
+  color: #FFFFFF;
+  border-color: #2B2B2B;
+}
+.btn-coral:hover { background: #FF5252; }
+
+.btn-yellow {
+  background: var(--crayon-yellow);
+  color: #2B2B2B;
+  border-color: #2B2B2B;
+}
+.btn-yellow:hover { background: #FFCE1A; }
+
+.btn-blue {
+  background: var(--crayon-blue);
+  color: #1A365D;
+  border-color: #2B2B2B;
+}
+.btn-blue:hover { background: #4DBFFF; }
+
+.btn-green {
+  background: var(--crayon-green);
+  color: #134E21;
+  border-color: #2B2B2B;
+}
+.btn-green:hover { background: #55BF63; }
+
+.btn-outline {
+  background: transparent;
+  color: var(--ink-main);
+  border: 2px dashed var(--border-color);
+}
+.btn-outline:hover {
+  background: var(--bg-muted);
+  border-style: solid;
+}
+
+.btn-sm {
+  font-size: 1.05rem;
+  padding: 6px 14px;
+}
+
+/* Badges & Character Tags */
+.badge-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--wobble-pill);
+  background: var(--bg-surface);
+  color: var(--ink-main);
+}
+
+.badge-tag.tag-barnaby { background: #FFF3C4; color: #5B4702; }
+.badge-tag.tag-pip { background: #D6F1FF; color: #0E4E77; }
+.badge-tag.tag-cloudia { background: #E8F7FF; color: #1E445B; }
+.badge-tag.tag-inky { background: #EBDDFF; color: #4B1A8C; }
+.badge-tag.tag-cosmic { background: #FFE0E0; color: #8A1515; }
+.badge-tag.tag-daily { background: #DCF5E2; color: #1B5829; }
+
+/* --------------------------------------------------------------------------
+   3. DOODLE CARDS & TAPE ACCENTS
+   -------------------------------------------------------------------------- */
+.doodle-card {
+  background: var(--bg-surface);
+  border: 2.5px solid var(--border-color);
+  border-radius: var(--wobble-card);
+  padding: 24px;
+  box-shadow: 4px 6px 0px var(--shadow-color);
+  position: relative;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.doodle-card:hover {
+  transform: translateY(-5px) rotate(1deg);
+  box-shadow: 6px 10px 0px var(--shadow-color);
+}
+
+/* Scrapbook Washi Tape Strip (Clean, realistic paper tape without harsh dotted borders) */
+.tape-strip {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-1.5deg);
+  width: 85px;
+  height: 20px;
+  background: var(--tape-color);
+  border: none;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.9;
+  clip-path: polygon(
+    0% 0%, 100% 0%, 97% 50%, 100% 100%, 0% 100%, 3% 50%
+  );
+}
+
+.tape-corner-left {
+  position: absolute;
+  top: -8px;
+  left: -6px;
+  width: 55px;
+  height: 20px;
+  background: var(--tape-color);
+  transform: rotate(-35deg);
+  border: none;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.9;
+  clip-path: polygon(
+    0% 0%, 100% 0%, 96% 50%, 100% 100%, 0% 100%, 4% 50%
+  );
+}
+
+/* --------------------------------------------------------------------------
+   4. FORM INPUTS & LABELS
+   -------------------------------------------------------------------------- */
+.form-group {
+  margin-bottom: 1.4rem;
+}
+
+.doodle-label {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: var(--ink-main);
+}
+
+.doodle-input,
+.doodle-textarea,
+.doodle-select {
+  width: 100%;
+  padding: 12px 16px;
+  background: var(--bg-surface);
+  border: 2px solid var(--border-color);
+  border-radius: var(--wobble-1);
+  color: var(--ink-main);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 2px 2px 0px var(--shadow-color);
+}
+
+.doodle-input:focus,
+.doodle-textarea:focus,
+.doodle-select:focus {
+  border-color: var(--crayon-coral);
+  box-shadow: 3px 4px 0px var(--crayon-coral);
+}
+
+/* --------------------------------------------------------------------------
+   5. WOBBLY SECTION DIVIDERS (SVG)
+   -------------------------------------------------------------------------- */
+.wobbly-divider {
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  padding-block: 1rem;
+}
+
+.wobbly-divider svg {
+  width: 100%;
+  height: 40px;
+  stroke: var(--border-color);
+  fill: none;
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+/* --------------------------------------------------------------------------
+   6. LIGHTBOX MODAL
+   -------------------------------------------------------------------------- */
+.doodle-lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(30, 30, 30, 0.82);
+  backdrop-filter: blur(4px);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.doodle-lightbox.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.lightbox-content {
+  background: var(--bg-surface);
+  border: 3px solid var(--border-color);
+  border-radius: var(--wobble-card);
+  max-width: 640px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 30px;
+  position: relative;
+  box-shadow: 8px 12px 0px var(--shadow-color);
+  transform: scale(0.95);
+  transition: transform 0.25s ease;
+}
+
+.doodle-lightbox.active .lightbox-content {
+  transform: scale(1);
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  background: var(--crayon-coral);
+  color: white;
+  border: 2px solid var(--border-color);
+  border-radius: var(--wobble-pill);
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 2px 2px 0px var(--shadow-color);
+}
+
+.lightbox-close:hover {
+  transform: rotate(90deg) scale(1.1);
+}
+
+/* --------------------------------------------------------------------------
+   7. TOAST NOTIFICATIONS & MESSAGES
+   -------------------------------------------------------------------------- */
+.messages-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 420px;
+}
+
+.doodle-toast {
+  background: var(--crayon-yellow);
+  color: #2B2B2B;
+  border: 2.5px solid #2B2B2B;
+  border-radius: var(--wobble-1);
+  padding: 14px 20px;
+  box-shadow: 4px 5px 0px rgba(0,0,0,0.8);
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  animation: slideInUp 0.3s ease-out;
+}
+
+.doodle-toast.success { background: #D2F5D7; border-color: #1B5829; }
+.doodle-toast.error { background: #FFD2D2; border-color: #9B1B1B; }
+
+/* --------------------------------------------------------------------------
+   8. FOOTER
+   -------------------------------------------------------------------------- */
+.site-footer {
+  margin-top: 4rem;
+  padding-block: 4rem 2rem;
+  background: var(--bg-surface);
+  border-top: 3px solid var(--border-color);
+  position: relative;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1.2fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+.footer-newsletter-card {
+  background: var(--bg-muted);
+  border: 2px solid var(--border-color);
+  border-radius: var(--wobble-card);
+  padding: 24px;
+  box-shadow: 3px 4px 0px var(--shadow-color);
+}
+
+.newsletter-form {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.footer-bottom {
+  margin-top: 3.5rem;
+  padding-top: 1.5rem;
+  border-top: 1.5px dashed var(--border-subtle);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.95rem;
+  color: var(--ink-muted);
+}
+
+/* Animations */
+@keyframes gentle-wobble {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-4deg) scale(1.03); }
+  75% { transform: rotate(4deg) scale(0.98); }
+}
+
+@keyframes slideInUp {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes popMenuDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-14px) scale(0.96);
+  }
+  70% {
+    transform: translateY(4px) scale(1.01);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Responsive Popping Nav */
+@media (max-width: 900px) {
+  .site-header {
+    top: 8px;
+    margin-inline: 8px;
+  }
+
+  .nav-wrapper {
+    padding: 6px 14px;
+    border-radius: 9999px;
+  }
+
+  .site-logo {
+    font-size: 1.45rem;
+    gap: 8px;
+  }
+
+  .logo-mascot-icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .mobile-menu-toggle {
+    display: flex;
+  }
+
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 4px;
+    right: 4px;
+    flex-direction: column;
+    background: var(--bg-surface);
+    border: 2.5px solid var(--border-color);
+    border-radius: 22px;
+    padding: 12px;
+    box-shadow: 0 8px 0 var(--shadow-color);
+    gap: 8px;
+    z-index: 1001;
+  }
+
+  .nav-links.is-open {
+    display: flex;
+    animation: popMenuDown 0.28s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  }
+
+  .nav-links li {
+    width: 100%;
+  }
+
+  .nav-link {
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 16px;
+    font-size: 1.18rem;
+    border-radius: 14px;
+    background: var(--bg-muted);
+    border: 1.5px solid var(--border-subtle);
+    color: var(--ink-main);
+  }
+
+  .nav-link:hover,
+  .nav-link.active {
+    background: #FFD93D;
+    color: #2B2B2B !important;
+    border-color: var(--border-color);
+    box-shadow: 0 3px 0 var(--shadow-color);
+    transform: translateX(3px);
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   PERSISTENT MOBILE BOTTOM NAVIGATION DOCK
+   Always visible, thumb-accessible dock so mobile users can jump to any page!
+   -------------------------------------------------------------------------- */
+.mobile-bottom-dock {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-bottom-dock {
+    display: flex;
+    position: fixed;
+    bottom: 12px;
+    left: 12px;
+    right: 12px;
+    background: var(--bg-surface);
+    border: 2.5px solid var(--border-color);
+    border-radius: 9999px;
+    box-shadow: 0 4px 0 var(--shadow-color);
+    padding: 6px 6px;
+    z-index: 9990;
+    justify-content: space-around;
+    align-items: center;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  [data-theme="dark"] .mobile-bottom-dock {
+    background: #252830;
+    border-color: #F5F3ED;
+    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.85);
+  }
+
+  .mobile-dock-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 10px;
+    border-radius: 9999px;
+    color: var(--ink-main);
+    text-decoration: none;
+    transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.15s ease;
+    gap: 2px;
+    min-width: 50px;
+    user-select: none;
+  }
+
+  .mobile-dock-btn:active {
+    transform: scale(0.92);
+  }
+
+  .mobile-dock-icon {
+    font-size: 1.25rem;
+    line-height: 1;
+  }
+
+  .mobile-dock-label {
+    font-family: var(--font-display);
+    font-size: 0.72rem;
+    font-weight: 700;
+    line-height: 1;
+    color: inherit;
+  }
+
+  .mobile-dock-btn.active {
+    background: #FFD93D;
+    color: #2B2B2B !important;
+    border: 1.5px solid var(--border-color);
+    box-shadow: 0 2px 0 var(--shadow-color);
+    transform: translateY(-2px);
+  }
+
+  /* Ensure footer has clearance so bottom dock never obscures content */
+  .site-footer {
+    padding-bottom: 95px !important;
+  }
+}

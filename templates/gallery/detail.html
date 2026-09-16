@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container section-spacing">
+  <div style="max-width: 720px; margin: 0 auto;">
+    <a href="{% url 'gallery:list' %}" class="btn-doodle btn-outline btn-sm" style="margin-bottom: 2rem;">
+      ← Back to Scrapbook
+    </a>
+
+    <div class="doodle-card" style="padding: clamp(24px, 5vw, 40px); text-align: center;">
+      <div class="tape-strip"></div>
+      <div style="margin-bottom: 16px;">
+        <span class="badge-tag tag-{{ doodle.character_tag }}">{{ doodle.get_character_tag_display }}</span>
+      </div>
+
+      <div class="polaroid-art-stage" style="padding: 24px; min-height: 380px; margin-bottom: 24px;">
+        {% if doodle.svg_content %}
+          {{ doodle.svg_content|safe }}
+        {% elif doodle.image %}
+          <img src="{{ doodle.image.url }}" alt="{{ doodle.title }}">
+        {% endif %}
+      </div>
+
+      <h1 style="font-size: 2.2rem; margin-bottom: 10px;">{{ doodle.title }}</h1>
+      <p class="polaroid-caption" style="font-size: 1.5rem; margin-bottom: 16px;">"{{ doodle.caption }}"</p>
+      <p style="font-size: 0.95rem; color: var(--ink-muted);">
+        🗓️ Drawn into the official margin records on {{ doodle.created_at|date:"F j, Y" }}
+      </p>
+
+      <div style="display: flex; justify-content: center; gap: 14px; margin-top: 2rem;">
+        <a href="{% url 'core:draw' %}?prompt={{ doodle.title|urlencode }}" class="btn-doodle btn-coral">
+          Draw Something Similar ✏️
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
