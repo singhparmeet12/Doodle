@@ -20,10 +20,8 @@ SECRET_KEY = config(
 DEBUG = config('DEBUG', default=True, cast=bool)
 
 ALLOWED_HOSTS = ['*']
-)
 
 CSRF_TRUSTED_ORIGINS = ['https://*.vercel.app', 'http://localhost:8000', 'http://127.0.0.1:8000']
-)
 
 # Application definition
 INSTALLED_APPS = [
@@ -161,3 +159,4 @@ else:
     SESSION_COOKIE_SECURE = False
     CSRF_COOKIE_SECURE = False
     X_FRAME_OPTIONS = 'SAMEORIGIN'
+
