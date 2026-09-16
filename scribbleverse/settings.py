@@ -14,10 +14,9 @@ if str(BASE_DIR) not in sys.path:
     sys.path.insert(0, str(BASE_DIR))
 
 # Security
-SECRET_KEY = os.environ.get(
-    'SECRET_KEY',
-    'django-insecure-dev-scribble-8$=#d3-o_m_5+x57yt0ks%$=(kvq*o#5^1(ry*h*2b#6xb7o1$'
-)
+SECRET_KEY = os.environ.get('SECRET_KEY') or 'django-insecure-dev-scribble-8$=#d3-o_m_5+x57yt0ks%$=(kvq*o#5^1(ry*h*2b#6xb7o1$'
+if not SECRET_KEY.strip():
+    SECRET_KEY = 'django-insecure-dev-scribble-8$=#d3-o_m_5+x57yt0ks%$=(kvq*o#5^1(ry*h*2b#6xb7o1$'
 
 DEBUG = os.environ.get('DEBUG', 'True').lower() in ('true', '1', 'yes')
 
@@ -148,3 +147,4 @@ SECURE_SSL_REDIRECT = False
 SESSION_COOKIE_SECURE = False
 CSRF_COOKIE_SECURE = False
 X_FRAME_OPTIONS = 'SAMEORIGIN'
+
