@@ -3,25 +3,32 @@ Django settings for scribbleverse project.
 Whimsical interactive doodle-universe brand website.
 """
 
-from pathlib import Path
-from decouple import config, Csv
-import dj_database_url
 import os
+import sys
+import shutil
+from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+if str(BASE_DIR) not in sys.path:
+    sys.path.insert(0, str(BASE_DIR))
 
 # Security
-SECRET_KEY = config(
+SECRET_KEY = os.environ.get(
     'SECRET_KEY',
-    default='django-insecure-dev-scribble-8$=#d3-o_m_5+x57yt0ks%$=(kvq*o#5^1(ry*h*2b#6xb7o1$'
+    'django-insecure-dev-scribble-8$=#d3-o_m_5+x57yt0ks%$=(kvq*o#5^1(ry*h*2b#6xb7o1$'
 )
 
-DEBUG = config('DEBUG', default=True, cast=bool)
+DEBUG = os.environ.get('DEBUG', 'True').lower() in ('true', '1', 'yes')
 
 ALLOWED_HOSTS = ['*']
 
-CSRF_TRUSTED_ORIGINS = ['https://*.vercel.app', 'http://localhost:8000', 'http://127.0.0.1:8000']
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.vercel.app',
+    'https://doodle-hazel-eight.vercel.app',
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
+]
 
 # Application definition
 INSTALLED_APPS = [
@@ -73,31 +80,25 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'scribbleverse.wsgi.application'
 
-# Database
-# Default: SQLite3 for local development.
-# In production, pass DATABASE_URL (e.g. Postgres on Render/Railway).
-import shutil
-
 # Serverless SQLite handling for Vercel
-if os.environ.get('VERCEL') or os.environ.get('AWS_LAMBDA_FUNCTION_NAME'):
-    _base_db = BASE_DIR / 'db.sqlite3'
-    _tmp_db = Path('/tmp/db.sqlite3')
-    if _base_db.exists() and not _tmp_db.exists():
-        shutil.copyfile(_base_db, _tmp_db)
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': str(_tmp_db if _tmp_db.exists() else _base_db),
-        }
-    }
+_base_db = BASE_DIR / 'db.sqlite3'
+_tmp_db = Path('/tmp/db.sqlite3')
+if os.environ.get('VERCEL') or os.environ.get('AWS_LAMBDA_FUNCTION_NAME') or os.environ.get('LAMBDA_TASK_ROOT'):
+    try:
+        if _base_db.exists() and not _tmp_db.exists():
+            shutil.copyfile(str(_base_db), str(_tmp_db))
+    except Exception as e:
+        print(f"Error copying SQLite db to /tmp: {e}")
+    db_name = str(_tmp_db if _tmp_db.exists() else _base_db)
 else:
-    DATABASES = {
-        'default': dj_database_url.config(
-            default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
-            conn_max_age=600,
-            conn_health_checks=True,
-        )
+    db_name = str(_base_db)
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': db_name,
     }
+}
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
@@ -126,37 +127,24 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-# WhiteNoise storage
+# WhiteNoise storage (without strict manifest to prevent 500 errors)
 STORAGES = {
     "default": {
         "BACKEND": "django.core.files.storage.FileSystemStorage",
     },
     "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage" if not DEBUG else "django.contrib.staticfiles.storage.StaticFilesStorage",
+        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
     },
 }
 
-# Media files (User uploads / doodles)
+# Media files
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Production Security Headers
-if not DEBUG:
-    SECURE_SSL_REDIRECT = config('SECURE_SSL_REDIRECT', default=True, cast=bool)
-    SESSION_COOKIE_SECURE = config('SESSION_COOKIE_SECURE', default=True, cast=bool)
-    CSRF_COOKIE_SECURE = config('CSRF_COOKIE_SECURE', default=True, cast=bool)
-    SECURE_BROWSER_XSS_FILTER = True
-    SECURE_CONTENT_TYPE_NOSNIFF = True
-    X_FRAME_OPTIONS = 'DENY'
-    SECURE_HSTS_SECONDS = config('SECURE_HSTS_SECONDS', default=31536000, cast=int)
-    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-    SECURE_HSTS_PRELOAD = True
-else:
-    SECURE_SSL_REDIRECT = False
-    SESSION_COOKIE_SECURE = False
-    CSRF_COOKIE_SECURE = False
-    X_FRAME_OPTIONS = 'SAMEORIGIN'
-
+SECURE_SSL_REDIRECT = False
+SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = False
+X_FRAME_OPTIONS = 'SAMEORIGIN'
